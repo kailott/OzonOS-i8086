@@ -8,29 +8,29 @@
 ;При ошибке BX=-1
 ;Функция 03h получение текущей видеостраницы и позиции курсора
 ;Функция 04h чтение строки с клавиатуры, ES:DI = буффер
-org 0h
+conio_int:
 @@:
 ;Для совместимости с DOS
 cmp ax,04c00h
-je _04c00h
+je __04c00h
 cmp ah,00h
-je _00h
+je __00h
 cmp ah,01h
-je _01h
+je __01h
 cmp ah,02h
-je _02h
+je __02h
 cmp ah,03h
-je _03h
+je __03h
 cmp ah,04h
-je _04h
+je __04h
 mov ax,-1
 iret
 
-_00h:
+__00h:
 mov ax,003h
 iret
 
-_01h:
+__01h:
 ;вывод ASCIIZ строки
 ;ES:DI строка
 pusha
@@ -46,7 +46,7 @@ jmp @b
 popa
 iret
 
-_02h:
+__02h:
 ;вывод ASCIIZ строки
 ;ES:DI строка
 pusha
@@ -58,7 +58,7 @@ mov al,byte [es:di]
 inc di
 inc cx
 cmp cx,254
-je @_02hErr
+je @__02hErr
 cmp al,0
 jne @b
 pop di
@@ -72,14 +72,14 @@ mov al,1
 int 10h
 popa
 iret
-@_02hErr:
+@__02hErr:
 mov bx,-1
 iret
 
 ;Возвращает активную видеостраницу и координаты курсора
 ;Возврат  : BH = видеостраница
 ;           DH = строка DL = столбец
-_03h:
+__03h:
 call ActivPage
 call GetCursor
 iret
@@ -87,7 +87,7 @@ iret
 
 ;Чтение строки с клавиатуры
 ;ES:DI = buffer
-_04h:
+__04h:
 pusha
 call keyread
 popa
@@ -143,17 +143,17 @@ _spaces db 0
 
 ;Смена видеорежима
 ;al = видеорежим
-_05h:
+__05h:
 xor ah,ah
 int 10h
 iret
 ;Получение видеорежима
-_06h:
+__06h:
 mov ah,0Fh
 int 10h
 iret
 ;Перевод строки
-_07h:
+__07h:
 pusha
 mov ax,0E0Ah
 int 10h
@@ -172,7 +172,7 @@ iret
 
 
 
-_04c00h:
+__04c00h:
 int 20h
 iret
 
