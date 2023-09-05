@@ -1,25 +1,24 @@
-org 0
-start:
-call set_vmode
-call set_memory_int
-include 'init.asm'
+format ELF
+include 'proc32.inc'
+public _start
+extrn main
 
+section ".text" executable
 
+_start:
 
-call Logo
-call load_shell
-jmp $
+        call main
+@@:
+        ;cli
+        ;hlt
+        jmp @b
 
+section ".data" writable
 
-include 'memory.asm'
-include 'logo.asm'
-include 'display.inc'
-include 'error.asm'
-include 'loadshell.asm'
-include 'data.inc'
-
-
-
-
-
-
+gdt:
+        dq 0                 
+        dq 0x00CF9A000000FFFF
+        dq 0x00CF92000000FFFF
+gdtr:
+        dw $ - gdt
+        dd gdt

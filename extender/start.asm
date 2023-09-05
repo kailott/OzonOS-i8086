@@ -1,2 +1,0 @@
-org 0x100
-start:

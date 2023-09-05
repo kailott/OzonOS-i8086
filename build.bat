@@ -1,8 +1,11 @@
+set ROOT=%CD%
+del %ROOT%\bin\*.bin
 cd tools/fasm
-fasm.exe ../../boot/fddboot.asm  ../../bin/bootsec.bin
-fasm.exe ../../kernel/kernel.asm  ../../bin/kernel.bin
-fasm.exe ../../kernel/stdio.asm  ../../bin/stdio.bin
+fasm.exe ../../boot/bootsec.asm  ../../bin/bootsec.bin
+fasm.exe ../../loader/loader.asm  ../../bin/loader.bin
 fasm.exe ../../fatdrv/fatdrv.asm  ../../bin/fatdrv.bin
-fasm.exe ../../shell/shell.asm  ../../bin/shell.com
+cd %ROOT%\kernel
+call build.bat
+copy kernel.bin %ROOT%\bin\kernel.bin
 @echo
 pause

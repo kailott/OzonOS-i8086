@@ -1,0 +1,26 @@
+OUTPUT_FORMAT("msdos")
+OUTPUT_ARCH(i386)
+SECTIONS
+{
+  .text :
+  {
+    CREATE_OBJECT_SYMBOLS
+    *(.text)
+  }
+  .data :
+  {
+    *(.rodata)
+    *(.data)
+    CONSTRUCTORS
+  }
+  .bss :
+  {
+   ;
+   ;
+   *(.bss)
+   *(COMMON)
+   ;
+   ;
+   ;
+  }
+}
